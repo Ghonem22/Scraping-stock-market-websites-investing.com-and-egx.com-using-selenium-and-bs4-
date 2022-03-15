@@ -27,13 +27,13 @@
 
 ### 1. Using Jupiter Notebook
 
-    a. download and run the notebook
+   a. download and run the notebook
     
     Scraping stock market websites, investing.com and egx.com, using selenium and bs4 .ipynb
     
-    b. Download and unzib geckodriver-v0.30.0-win64.zip at the same directory to be able to use selenuim with firefox
+   b. Download and unzib geckodriver-v0.30.0-win64.zip at the same directory to be able to use selenuim with firefox
     
-    c. run code
+   c. run code
     
 
 
