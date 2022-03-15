@@ -1,18 +1,7 @@
 from utilis import *
 
 # initialize driver 
-profile = webdriver.FirefoxProfile()
 
-profile.set_preference("dom.webnotifications.enabled", False)
-profile.set_preference("dom.push.enabled", False)
-
-options = Options()
-options.headless = False
-driver = webdriver.Firefox(options=options, firefox_profile=profile)
-
-
-# driver = webdriver.Firefox()
-driver.maximize_window()
 
 
 

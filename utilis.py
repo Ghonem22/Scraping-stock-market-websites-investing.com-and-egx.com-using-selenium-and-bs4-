@@ -1,5 +1,3 @@
-
-# import reqired libraries
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -20,7 +18,6 @@ from urllib.request import Request, urlopen
 import random 
 import pandas as pd
 
-# some diffrent user_agent
 user_agents = [ 
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36', 
@@ -48,6 +45,14 @@ def wait_until_elem(type,selec,delay):
     except TimeoutException:
         print("Loading took too much time")
 
+        
+def click_annual():
+    #open first category
+    driver.find_element_by_xpath('//*[@id="leftColumn"]/div[9]/a[1]').click()
+
+    #check page:
+    wait_until_elem('CLASS',"info float_lang_base_2",5)
+
 def clode_pop():
     
     try:
@@ -56,15 +61,26 @@ def clode_pop():
         time.sleep(.2)
         driver.find_element_by_xpath('//*[@id="rsdiv"]/div[3]/div[1]').click()
         driver.find_element_by_xpath('//*[@id="rsdiv"]/div[3]/div[1]').click()
-        print('closed pop')
+#         print('closed pop')
     except:
-        print('no pop')
+        pass
+#         print('no pop')
 
 
+        
+profile = webdriver.FirefoxProfile()
+
+profile.set_preference("dom.webnotifications.enabled", False)
+profile.set_preference("dom.push.enabled", False)
+
+options = Options()
+options.headless = False
+driver = webdriver.Firefox(options=options, firefox_profile=profile)
 
 
+# driver = webdriver.Firefox()
+driver.maximize_window()
 
-# important function
 
 
 def get_soup(page_url):
@@ -82,7 +98,7 @@ def get_soup(page_url):
     try:
         driver.switch_to.window(main_page)
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='leftColumn']/div[9]/a[1]"))).click()
-        print("is completed direc")
+#         print("is completed direc")
     except:
         # if there is pop page, close it then try to move to annual again
         try:
@@ -99,7 +115,7 @@ def get_soup(page_url):
         time.sleep(.2)
         driver.switch_to.window(main_page)
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='leftColumn']/div[9]/a[1]"))).click()
-        print("is completed through exception")
+#         print("is completed through exception")
     
     html = driver.page_source
     return BeautifulSoup(html, 'html.parser')
@@ -272,9 +288,6 @@ def get_dividends(page_url):
     return data
 
 
-
-# collect all together
-
 def run():
     # dividend_data
     resutls = []
@@ -426,7 +439,7 @@ def run():
                 else:
                     summary_attrs[key].append(summary_attr[key])
         except:
-            print(f"error while scraping summary {summary_url}")
+            print(f"error while scraping summary page:  {summary_url}")
 
             
             
@@ -441,7 +454,8 @@ def run():
                 else:
                     home_page_attrs[key].append(home_page_attr[key])
         except:
-            print(f"err with home page  {validated_url}")
+            pass
             
 #         if i > 5:
     return resutls, not_exist, skipped_urls, home_page_attrs, summary_attrs, summary_years
+
